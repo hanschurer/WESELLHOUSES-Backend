@@ -1,0 +1,21 @@
+{
+  "name": "wesellhouses_backend",
+  "version": "1.0.0",
+  "description": "backend for wesellhouses",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/304CEM-2021SEPJAN/WeSellHouses_Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.4.0",
+    "mongoose": "^5.10.7"
+  }
+}
