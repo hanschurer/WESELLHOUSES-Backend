@@ -4,12 +4,15 @@ const Items = require('../models/items');
 
 const router = Router({prefix: '/api/v1/items'});
 
+const {validateItem} = require('../controllers/validation')
+
+
 // items routes
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById);
 
-router.post('/', bodyParser(), createItem);
-router.put('/:id([0-9]{1,})', bodyParser(), updateItem);
+router.post('/', bodyParser(), validateItem, createItem);
+router.put('/:id([0-9]{1,})', bodyParser(), validateItem, updateItem);
 router.del('/:id([0-9]{1,})', deleteItem);
 
 // views route
