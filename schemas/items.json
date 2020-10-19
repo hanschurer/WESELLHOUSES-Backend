@@ -1,4 +1,4 @@
-module.exports = {
+ {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "/Item",
     "title": "Item",
@@ -42,7 +42,7 @@ module.exports = {
         "description": "The price of the property",
         "type": "integer",
         "minimum": 0
-      },
+      }
     },
     "required": ["property_name", "price"],
     "additionalProperties": false

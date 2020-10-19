@@ -1,4 +1,4 @@
-module.exports = {
+ {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "/user",
     "title": "User",
@@ -28,7 +28,7 @@ module.exports = {
       "avatarURL": {
         "description": "URL of avatar image",
         "type": "uri"
-      },
+      }
     },
     "required": ["username", "email", "password"],
     "additionalProperties": false

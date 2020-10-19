@@ -1,7 +1,7 @@
 const {Validator, ValidationError} = require('jsonschema');
 
-const itemsSchema = require('../schemas/items.schema.js');
-const usersSchema = require('../schemas/users.schema.js');
+const itemsSchema = require('../schemas/items.json');
+const usersSchema = require('../schemas/users.json');
 
 const makeKoaValidator = (schema, resource) => {
 
