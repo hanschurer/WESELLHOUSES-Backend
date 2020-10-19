@@ -10,3 +10,5 @@
       "recurse": true                         // Same as using -r or --recurse
     }
   }
+
+  // ./node_modules/jsdoc/jsdoc.js -c jsc.conf.json
