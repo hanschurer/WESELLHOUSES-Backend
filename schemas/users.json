@@ -21,6 +21,10 @@
         "description": "Password for registration",
         "type": "string"
       },
+      "signup": {
+        "description": "signup code for registration",
+        "type": "string"
+      },
       "email": {
         "description": "Unique email address",
         "type": "email"

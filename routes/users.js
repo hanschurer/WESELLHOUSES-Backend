@@ -4,13 +4,14 @@ const Users = require('../models/users');
 const authenticate = require('../controllers/auth');
 const { validateUser } = require('../controllers/validation');
 // The koa-router provides a router.prefix method, which is a global configuration for a router and is automatically added to all paths of the router.
-const router = Router({prefix:'/api/v1/users'});
+const prefix = '/api/v1/users'
+const router = Router({prefix:prefix});
 
 const can = require('../permissions/users')
 const Can = require('../controllers/permission');
   
-
-router.get('/', authenticate, getAllUsers);
+router.post('/login',authenticate,login)
+router.get('/', getAllUsers);
 router.post('/',bodyParser(), validateUser, createUser);
 
 //In koa, we often need to map all the routes that match a certain schema to the same method. For example, we have a user's routing widget, and we need to use this method to render the routes for all users with different IDs. So, we can use "dynamic path parameters" in koa's route paths
@@ -18,7 +19,13 @@ router.get('/:id([0-9]{1,})',authenticate, getById);
 router.put('/:id([0-9]{1,})',authenticate,bodyParser(), validateUser, updateUser);
 router.del('/:id([0-9]{1,})',authenticate,deleteUser);
 
-
+async function login(ctx){
+  const {ID, username, email} = ctx.state.user
+  const links={
+    self:`${ctx.protocol}://${ctx.host}${prefix}/${ID}`
+  }
+  ctx.body={ID, username, email,links}
+}
 
 async function getAllUsers(ctx){
     const permissions = can.readAll(ctx.state.user);
