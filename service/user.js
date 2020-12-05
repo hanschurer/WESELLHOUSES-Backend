@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 module.exports = {
   find(key, value) {
     return User.findOne({

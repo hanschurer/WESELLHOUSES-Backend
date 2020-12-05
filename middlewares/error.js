@@ -1,18 +1,14 @@
-
-
 function error() {
-    return async (ctx, next) => {
-        try {
-            await next()
-        } catch (err) {
-            console.error(err)
-            ctx.body = {
-                code: -1,
-                err: err.toString(),
-                message: 'internal server error'
-            }
-        }
+  return async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      ctx.status = err.status
+      ctx.body = {
+        message: err.toString()
+      }
     }
+  }
 }
 
 module.exports = error

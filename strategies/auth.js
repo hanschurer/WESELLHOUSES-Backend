@@ -1,6 +1,6 @@
 const passport = require('koa-passport')
-const basicAuth = require('../strategies/basic')
+const local = require('../strategies/local')
 
-passport.use(basicAuth)
+passport.use(local)
 
-module.exports = passport.authenticate(['basic'], { session: true })
+module.exports = passport.authenticate(['local'], { session: false })

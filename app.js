@@ -7,6 +7,7 @@ const error = require('./middlewares/error')
 const logger = require('./middlewares/logger')
 const path = require('path')
 const mongoose = require('mongoose')
+const session = require('koa-session')
 const config = require('./config')
 const init = require('./init')
 const app = new Koa()
@@ -22,6 +23,17 @@ mongoose.connection.on('error', err => {
   console.log(err)
   console.log('[App] MongoDB connected fail.')
 })
+app.keys = ['secret']
+const CONFIG = {
+  key: 'koa:sess',
+  maxAge: 86400000,
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: false,
+  renew: false
+}
+app.use(session(CONFIG, app))
 app.use(error())
 app.use(logger())
 
@@ -34,15 +46,18 @@ app.use(
     }
   })
 )
-app.use(cors())
+app.use(
+  cors({
+    origin: function() {
+      return 'http://localhost:3000'
+    },
+    credentials: true,
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+  })
+)
 app.use(routers())
 app.use(ctx => {
-  ctx.body = {
-    code: 404,
-    message: 'URL error'
-  }
+  ctx.throw(404, 'URL error')
 })
-
-
 
 module.exports = app
