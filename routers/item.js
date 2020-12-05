@@ -14,6 +14,9 @@ router
       createUser: ctx.session.user._id
     })
   })
+  .get('/item/:id', isLogin, async ctx => {
+    ctx.body = await itemService.findOne(ctx.params.id)
+  })
   .delete('/item/:id', isLogin, async ctx => {
     ctx.body = await itemService.remove(ctx.params.id)
   })
