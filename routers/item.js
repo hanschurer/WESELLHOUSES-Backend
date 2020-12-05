@@ -14,4 +14,11 @@ router
       createUser: ctx.session.user._id
     })
   })
+  .delete('/item/:id', isLogin, async ctx => {
+    ctx.body = await itemService.remove(ctx.params.id)
+  })
+  .put('/item/:id', isLogin, async ctx => {
+    await itemService.update(ctx.params.id, ctx.request.body)
+    ctx.body = {}
+  })
 module.exports = router

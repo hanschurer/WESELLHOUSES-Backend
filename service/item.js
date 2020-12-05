@@ -9,14 +9,22 @@ module.exports = {
   update(_id, data) {
     return Item.findByIdAndUpdate(_id, data)
   },
+  remove(_id) {
+    return Item.remove({ _id })
+  },
   findAll(query = {}) {
     const params = { status: 0 }
     if (query.type && query.type.length > 0) {
       params.type = { $in: query.type }
     }
+    if (query.tags && query.tags.length > 0) {
+      params.tags = { $in: query.tags }
+    }
     if (query.name) {
       params.name = new RegExp(query.name)
     }
-    return Item.find(params).populate('createUser').sort({createdAt: -1})
+    return Item.find(params)
+      .populate('createUser')
+      .sort({ createdAt: -1 })
   }
 }
