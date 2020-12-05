@@ -13,6 +13,7 @@ router
     }
     const token = Jwt.sign(ctx.state.user._doc, 'token', { expiresIn: '1d' })
     ctx.session.token = token
+    ctx.session.user = ctx.state.user
     ctx.body = { _id, username, email, token, links }
   })
   .post('/users', async ctx => {

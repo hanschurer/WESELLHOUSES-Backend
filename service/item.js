@@ -17,6 +17,6 @@ module.exports = {
     if (query.name) {
       params.name = new RegExp(query.name)
     }
-    return Item.find(params).populate('createUser')
+    return Item.find(params).populate('createUser').sort({createdAt: -1})
   }
 }

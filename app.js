@@ -52,7 +52,12 @@ app.use(
       return 'http://localhost:3000'
     },
     credentials: true,
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+    allowHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'x-requested-with'
+    ]
   })
 )
 app.use(routers())

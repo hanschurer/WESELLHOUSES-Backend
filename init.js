@@ -21,7 +21,7 @@ module.exports = async function() {
         name: 'villa' + i,
         type: [0, 1, 2],
         desc: 'Sunny, good geographical location',
-        tags: ["tag1",'tag2'],
+        tags: ["NICE",'COOL'],
         price: 930,
         position: 'Cambridge',
         imgUrl: ['/test.png', '/test.png', '/test.png'],
