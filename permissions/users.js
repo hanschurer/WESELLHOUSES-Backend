@@ -5,44 +5,23 @@ const ac = new AccessControl()
 ac.grant('user')
   .condition({ Fn: 'EQUALS', args: { requester: '$.owner' } })
   .execute('read')
-  .on('user', ['*', '!password', '!passwordSalt'])
-ac.grant('user')
-  .condition({ Fn: 'EQUALS', args: { requester: '$.owner' } })
   .execute('update')
-  .on('user', [
-    'firstName',
-    'lastName',
-    'about',
-    'password',
-    'email',
-    'avatarURL'
-  ])
+  .on('users')
 
 ac.grant('admin')
-  .execute('read')
-  .on('user')
-ac.grant('admin')
+  .execute('create')
+  .execute('update')
   .execute('read')
   .on('users')
 ac.grant('admin')
-  .execute('update')
-  .on('user')
-ac.grant('admin')
   .condition({ Fn: 'NOT_EQUALS', args: { requester: '$.owner' } })
   .execute('delete')
-  .on('user')
-
-exports.readAll = requester =>
-  ac
-    .can(requester.role)
-    .execute('read')
-    .sync()
-    .on('users')
+  .on('users')
 
 exports.read = (requester, data) =>
   ac
     .can(requester.role)
-    .context({ requester: requester.ID, owner: data.ID })
+    .context({ requester: requester._id, owner: data._id })
     .execute('read')
     .sync()
     .on('user')
@@ -50,7 +29,7 @@ exports.read = (requester, data) =>
 exports.update = (requester, data) =>
   ac
     .can(requester.role)
-    .context({ requester: requester.ID, owner: data.ID })
+    .context({ requester: requester._id, owner: data._id })
     .execute('update')
     .sync()
     .on('user')
@@ -58,7 +37,7 @@ exports.update = (requester, data) =>
 exports.delete = (requester, data) =>
   ac
     .can(requester.role)
-    .context({ requester: requester.ID, owner: data.ID })
+    .context({ requester: requester._id, owner: data._id })
     .execute('delete')
     .sync()
     .on('user')
