@@ -1,7 +1,7 @@
 const Item = require('../models/item')
 module.exports = {
   findOne(_id) {
-    return Item.findOne({ _id })
+    return Item.findOne({ _id }).populate('createUser')
   },
   add(data) {
     return Item.create(data)
