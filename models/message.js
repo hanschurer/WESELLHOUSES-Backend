@@ -10,10 +10,6 @@ const message = new mongoose.Schema(
       type: Number,
       default: 0 //0 display  1 hide
     },
-    createUser: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    },
     item: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'item'

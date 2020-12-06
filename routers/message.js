@@ -5,12 +5,7 @@ const Joi = require('joi')
 const CanMsg = require('../permissions/message')
 const isLogin = require('../middlewares/login')
 router
-  .get('/msgs/:itemId', isLogin, async ctx => {
-    if (!CanMsg.read(ctx.session.user, {}).granted) {
-      ctx.throw(403, '')
-      return
-    }
-
+  .get('/msgs/:itemId', async ctx => {
     const data = await messageService.findAll({
       item: ctx.params.itemId
     })
@@ -46,11 +41,7 @@ router
       }
     })
   })
-  .post('/msg', isLogin, async ctx => {
-    if (!CanMsg.create(ctx.session.user, {}).granted) {
-      ctx.throw(403, '')
-      return
-    }
+  .post('/msg', async ctx => {
     const schema = Joi.object({
       content: Joi.string()
         .min(0)
@@ -63,8 +54,7 @@ router
       ctx.throw(400, error)
     }
     const data = await messageService.add({
-      ...ctx.request.body,
-      createUser: ctx.session.user._id
+      ...ctx.request.body
     })
     ctx.body = {
       ...data._doc,
