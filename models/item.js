@@ -29,6 +29,7 @@ const item = new mongoose.Schema(
       default: ''
     },
     imgUrl: [String],
+    videoUrl: String,
     status: {
       type: Number,
       default: 0 //0 display  1 hide

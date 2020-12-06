@@ -66,7 +66,8 @@ router
       tags: Joi.array(),
       imgUrl: Joi.array(),
       price: Joi.number(),
-      status: Joi.number()
+      status: Joi.number(),
+      videoUrl:Joi.string().allow('')
     })
     const { error } = schema.validate(ctx.request.body)
     if (error) {
@@ -162,7 +163,8 @@ router
       tags: Joi.array(),
       imgUrl: Joi.array(),
       price: Joi.number(),
-      status: Joi.number()
+      status: Joi.number(),
+      videoUrl:Joi.string().allow('')
     })
     const { error } = schema.validate(ctx.request.body)
     if (error) {
