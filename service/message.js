@@ -17,6 +17,9 @@ module.exports = {
     if (query.item) {
       params.item = query.item
     }
+    if (query.status === 'all') {
+      delete params.status
+    }
     return Message.find(params)
       .populate('createUser')
       .sort({ createdAt: -1 })
@@ -25,6 +28,12 @@ module.exports = {
     const params = { status: 0, createUser: query.userId }
     if (query.item) {
       params.item = query.item
+    }
+    if (query.itemIds) {
+      params.item = { $in: query.itemIds }
+    }
+    if (query.status === 'all') {
+      delete params.status
     }
     return Message.find(params)
       .populate('createUser')

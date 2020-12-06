@@ -26,6 +26,9 @@ module.exports = {
     if (query.createUser) {
       params.createUser = query.createUser
     }
+    if (query.status === 'all') {
+      delete params.status
+    }
     return Item.find(params)
       .populate('createUser')
       .sort({ createdAt: -1 })

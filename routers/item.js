@@ -19,7 +19,10 @@ router
   .post('/action/items', isLogin, async ctx => {
     const user = ctx.session.user
     if (user.role === 'admin') {
-      const data = await itemService.findAll(ctx.request.body)
+      const data = await itemService.findAll({
+        ...ctx.request.body,
+        status: 'all'
+      })
       ctx.body = data.map(item => {
         return {
           ...item._doc,
@@ -31,7 +34,8 @@ router
     } else {
       const data = await itemService.findAll({
         ...ctx.request.body,
-        createUser: user._id
+        createUser: user._id,
+        status: 'all'
       })
       ctx.body = data.map(item => {
         return {
