@@ -22,14 +22,6 @@ const user = new mongoose.Schema(
       type: String,
       required: true
     },
-    firstName: {
-      type: String,
-      default: ''
-    },
-    lastName: {
-      type: String,
-      default: ''
-    },
     role: {
       type: String,
       default: 'user'

@@ -26,7 +26,8 @@ router
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{3,30}$/)
         .required(),
-      email: Joi.string().email()
+      email: Joi.string().email(),
+      avatarURL: Joi.string()
     })
     const { error, value } = schema.validate(ctx.request.body)
     if (error) {
@@ -52,7 +53,7 @@ router
    * get userinfo
    */
   .get('/user/:id', async ctx => {
-    if (!CanUser.read(ctx.session.user, ctx.params).granted) {
+    if (!CanUser.read(ctx.session.user, { _id: ctx.params.id }).granted) {
       ctx.throw(403, '')
       return
     }
@@ -74,7 +75,7 @@ router
    * update userinfo
    */
   .put('/user/:id', async ctx => {
-    if (!CanUser.read(ctx.session.user, ctx.params).granted) {
+    if (!CanUser.read(ctx.session.user, { _id: ctx.params.id }).granted) {
       ctx.throw(403, '')
       return
     }

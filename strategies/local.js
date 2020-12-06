@@ -23,13 +23,9 @@ const checkUserAndPass = async (username, password, done) => {
     if (verifyPassword(user, password)) {
       console.log(`Successfully authenticated user ${username}`)
       return done(null, user)
-    } else {
-      console.log(`Password incorrect for user ${username}`)
     }
-  } else {
-    console.log(`No user found with username ${username}`)
   }
-  return done(null, false)
+  return done(null, false, { message: 'Password incorrect for user' })
 }
 
 const strategy = new Strategy({}, checkUserAndPass)

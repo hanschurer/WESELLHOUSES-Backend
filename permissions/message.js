@@ -4,23 +4,33 @@ const ac = new AccessControl()
 // controls for CRUD operations on user records
 ac.grant('user')
   .condition({ Fn: 'EQUALS', args: { requester: '$.owner' } })
-  .execute('read')
-  .on('users')
+  .execute('delete')
+  .on('message')
   .execute('update')
-  .on('users')
+  .on('message')
+
+ac.grant('user')
+  .execute('create')
+  .on('message')
+  .execute('read')
+  .on('message')
 
 ac.grant('admin')
   .execute('create')
-  .on('users')
-  .execute('update')
-  .on('users')
-  .execute('read')
-  .on('users')
-
-ac.grant('admin')
-  .condition({ Fn: 'NOT_EQUALS', args: { requester: '$.owner' } })
+  .on('message')
   .execute('delete')
-  .on('users')
+  .on('message')
+  .execute('update')
+  .on('message')
+  .execute('read')
+  .on('message')
+
+exports.create = requester =>
+  ac
+    .can(requester.role)
+    .execute('create')
+    .sync()
+    .on('message')
 
 exports.read = (requester, data) =>
   ac
@@ -28,7 +38,7 @@ exports.read = (requester, data) =>
     .context({ requester: requester._id, owner: data._id })
     .execute('read')
     .sync()
-    .on('users')
+    .on('message')
 
 exports.update = (requester, data) =>
   ac
@@ -36,4 +46,12 @@ exports.update = (requester, data) =>
     .context({ requester: requester._id, owner: data._id })
     .execute('update')
     .sync()
-    .on('users')
+    .on('message')
+
+exports.delete = (requester, data) =>
+  ac
+    .can(requester.role)
+    .context({ requester: requester._id, owner: data._id })
+    .execute('delete')
+    .sync()
+    .on('message')

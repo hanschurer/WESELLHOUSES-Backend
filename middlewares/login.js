@@ -9,8 +9,8 @@ module.exports = async (ctx, next) => {
   }
   try {
     Jwt.verify(token, 'token')
-    await next()
   } catch (error) {
-    ctx.throw(401, 'Please log in')
+    ctx.throw(400, 'Incorrect account and password')
   }
+  await next()
 }

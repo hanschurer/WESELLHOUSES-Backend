@@ -4,23 +4,33 @@ const ac = new AccessControl()
 // controls for CRUD operations on user records
 ac.grant('user')
   .condition({ Fn: 'EQUALS', args: { requester: '$.owner' } })
-  .execute('read')
-  .on('users')
+  .execute('delete')
+  .on('item')
   .execute('update')
-  .on('users')
+  .on('item')
+
+ac.grant('user')
+  .execute('create')
+  .on('item')
+  .execute('read')
+  .on('item')
 
 ac.grant('admin')
   .execute('create')
-  .on('users')
-  .execute('update')
-  .on('users')
-  .execute('read')
-  .on('users')
-
-ac.grant('admin')
-  .condition({ Fn: 'NOT_EQUALS', args: { requester: '$.owner' } })
+  .on('item')
   .execute('delete')
-  .on('users')
+  .on('item')
+  .execute('update')
+  .on('item')
+  .execute('read')
+  .on('item')
+
+exports.create = requester =>
+  ac
+    .can(requester.role)
+    .execute('create')
+    .sync()
+    .on('item')
 
 exports.read = (requester, data) =>
   ac
@@ -28,7 +38,7 @@ exports.read = (requester, data) =>
     .context({ requester: requester._id, owner: data._id })
     .execute('read')
     .sync()
-    .on('users')
+    .on('item')
 
 exports.update = (requester, data) =>
   ac
@@ -36,4 +46,12 @@ exports.update = (requester, data) =>
     .context({ requester: requester._id, owner: data._id })
     .execute('update')
     .sync()
-    .on('users')
+    .on('item')
+
+exports.delete = (requester, data) =>
+  ac
+    .can(requester.role)
+    .context({ requester: requester._id, owner: data._id })
+    .execute('delete')
+    .sync()
+    .on('item')
