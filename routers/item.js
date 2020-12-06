@@ -10,7 +10,16 @@ router
       ctx.throw(403, '')
       return
     }
-    ctx.body = await itemService.findAll(ctx.request.body)
+
+    const data = await itemService.findAll(ctx.request.body)
+    ctx.body = data.map(item => {
+      return {
+        ...item._doc,
+        links: {
+          msgs: `${ctx.protocol}://${ctx.host}${prefix}/msgs`
+        }
+      }
+    })
   })
   .post('/item', isLogin, async ctx => {
     if (!CanItem.create(ctx.session.user, {}).granted) {
@@ -37,17 +46,31 @@ router
     if (error) {
       ctx.throw(400, error)
     }
-    ctx.body = await itemService.add({
+    const data = await itemService.add({
       ...ctx.request.body,
       createUser: ctx.session.user._id
     })
+    ctx.body = {
+      ...data._doc,
+      links: {
+        msgs: `${ctx.protocol}://${ctx.host}${prefix}/msgs`,
+        items: `${ctx.protocol}://${ctx.host}${prefix}/items`
+      }
+    }
   })
   .get('/item/:id', isLogin, async ctx => {
     if (!CanItem.read(ctx.session.user, {}).granted) {
       ctx.throw(403, '')
       return
     }
-    ctx.body = await itemService.findOne(ctx.params.id)
+    const data = await itemService.findOne(ctx.params.id)
+    ctx.body = {
+      ...data._doc,
+      links: {
+        msgs: `${ctx.protocol}://${ctx.host}${prefix}/msgs`,
+        items: `${ctx.protocol}://${ctx.host}${prefix}/items`
+      }
+    }
   })
   .delete('/item/:id', isLogin, async ctx => {
     const item = await itemService.findOne(ctx.params.id)
@@ -59,7 +82,14 @@ router
       ctx.throw(403, '')
       return
     }
-    ctx.body = await itemService.remove(ctx.params.id)
+    const data = await itemService.remove(ctx.params.id)
+    ctx.body = {
+      ...data._doc,
+      links: {
+        msgs: `${ctx.protocol}://${ctx.host}${prefix}/msgs`,
+        items: `${ctx.protocol}://${ctx.host}${prefix}/items`
+      }
+    }
   })
   .put('/item/:id', isLogin, async ctx => {
     const item = await itemService.findOne(ctx.params.id)
@@ -92,6 +122,11 @@ router
       ctx.throw(400, error)
     }
     await itemService.update(ctx.params.id, ctx.request.body)
-    ctx.body = {}
+    ctx.body = {
+      links: {
+        msgs: `${ctx.protocol}://${ctx.host}${prefix}/msgs`,
+        items: `${ctx.protocol}://${ctx.host}${prefix}/items`
+      }
+    }
   })
 module.exports = router

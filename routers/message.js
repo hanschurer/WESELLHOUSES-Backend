@@ -10,8 +10,17 @@ router
       ctx.throw(403, '')
       return
     }
-    ctx.body = await messageService.findAll({
+
+    const data = await messageService.findAll({
       item: ctx.params.itemId
+    })
+    ctx.body = data.map(item => {
+      return {
+        ...item._doc,
+        links: {
+          item: `${ctx.protocol}://${ctx.host}${prefix}/item/${ctx.params.itemId}`
+        }
+      }
     })
   })
   .get('/msgs', isLogin, async ctx => {
@@ -20,13 +29,22 @@ router
       return
     }
     const role = ctx.session.user.role
+    let data = []
     if (role === 'admin') {
-      ctx.body = await messageService.findAll()
+      data = await messageService.findAll()
     } else {
-      ctx.body = await messageService.findByUser({
+      data = await messageService.findByUser({
         userId: ctx.session.user._id
       })
     }
+    ctx.body = data.map(item => {
+      return {
+        ...item._doc,
+        links: {
+          item: `${ctx.protocol}://${ctx.host}${prefix}/item/${item.item}`
+        }
+      }
+    })
   })
   .post('/msg', isLogin, async ctx => {
     if (!CanMsg.create(ctx.session.user, {}).granted) {
@@ -44,10 +62,16 @@ router
     if (error) {
       ctx.throw(400, error)
     }
-    ctx.body = await messageService.add({
+    const data = await messageService.add({
       ...ctx.request.body,
       createUser: ctx.session.user._id
     })
+    ctx.body = {
+      ...data._doc,
+      links: {
+        item: `${ctx.protocol}://${ctx.host}${prefix}/item/${data.item}`
+      }
+    }
   })
   .delete('/msg/:id', isLogin, async ctx => {
     const msg = await messageService.findOne(ctx.params.id)
@@ -71,6 +95,10 @@ router
       ctx.throw(400, error)
     }
     await messageService.update(ctx.params.id, ctx.request.body)
-    ctx.body = {}
+    ctx.body = {
+      links: {
+        item: `${ctx.protocol}://${ctx.host}${prefix}/item/${msg.item}`
+      }
+    }
   })
 module.exports = router

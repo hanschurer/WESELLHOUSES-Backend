@@ -1,12 +1,16 @@
 function logger() {
   return async (ctx, next) => {
-    const req = ctx.request
-    console.log(
-      `${new Date().toLocaleString()} [${req.method
-        .toString()
-        .toUpperCase()}]  -- ${req.url}`
-    )
-    await next()
+    if (process.env.NODE_ENV === 'test') {
+      await next()
+    } else {
+      const req = ctx.request
+      console.log(
+        `${new Date().toLocaleString()} [${req.method
+          .toString()
+          .toUpperCase()}]  -- ${req.url}`
+      )
+      await next()
+    }
   }
 }
 

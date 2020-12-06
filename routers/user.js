@@ -9,7 +9,7 @@ router
   .post('/login', authenticate, async ctx => {
     const { _id, username, email } = ctx.state.user._doc
     const links = {
-      self: `${ctx.protocol}://${ctx.host}${prefix}/${_id}`
+      self: `${ctx.protocol}://${ctx.host}${ctx.state.user._doc.avatarURL}`
     }
     const token = Jwt.sign(ctx.state.user._doc, 'token', { expiresIn: '1d' })
     ctx.session.token = token
@@ -46,7 +46,9 @@ router
       ...user._doc,
       password: undefined,
       passwordSalt: undefined,
-      link: `${ctx.request.path}/${user._id}`
+      links: {
+        self: `${ctx.protocol}://${ctx.host}${user._doc.avatarURL}`
+      }
     }
   })
   /**
@@ -67,6 +69,9 @@ router
     }
     ctx.body = {
       ...user._doc,
+      links: {
+        self: `${ctx.protocol}://${ctx.host}${user._doc.avatarURL}`
+      },
       password: undefined,
       passwordSalt: undefined
     }

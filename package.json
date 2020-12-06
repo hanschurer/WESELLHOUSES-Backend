@@ -4,8 +4,8 @@
   "description": "backend for wesellhouses",
   "main": "index.js",
   "scripts": {
+    "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
     "lint": "eslint --ignore-path .gitignore --ignore-path .eslintignore .",
-    "pretest": "npm run testDB:drop && npm run testDB:create && npm run testDB:migrate",
     "posttest": "npm run lint"
   },
   "repository": {
@@ -38,8 +38,10 @@
     "role-acl": "^4.5.4"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "jest": "^26.6.3",
+    "mocha": "^8.2.1",
     "supertest": "^6.0.1"
   }
 }
