@@ -23,7 +23,7 @@ module.exports = async function() {
         desc: 'Sunny, good geographical location',
         tags: ["NICE",'COOL'],
         price: 930,
-        position: 'Cambridge',
+        position: 'Coventry',
         imgUrl: ['/test.png', '/test.png', '/test.png'],
         status: 0,
         createUser: users[0]._id
