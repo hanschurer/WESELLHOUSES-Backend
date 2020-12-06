@@ -43,10 +43,6 @@ router
     })
   })
   .get('/action/msgs', isLogin, async ctx => {
-    if (!CanMsg.read(ctx.session.user, {}).granted) {
-      ctx.throw(403, '')
-      return
-    }
     const role = ctx.session.user.role
     let data = []
     if (role === 'admin') {
@@ -57,9 +53,8 @@ router
       const items = await itemService.findAll({
         createUser: ctx.session.user._id
       })
-      const itemIds = items.map(item => item._doc._id)
+      const itemIds = items.map(item => item._id)
       data = await messageService.findByUser({
-        userId: ctx.session.user._id,
         itemIds,
         status: 'all'
       })
