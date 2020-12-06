@@ -1,0 +1,42 @@
+
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "items": {
+        "id": "/item",
+        "title": "item",
+        "description": "An item in the wesellhouses",
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "Main title of the  item",
+            "type": "string"
+          },
+          "allText": {
+            "description": "Body text of the blog item",
+            "type": "string"
+          },
+          "summary": {
+            "description": "Optional short text summary of item",
+            "type": "string"
+          },
+          "imageURL": {
+            "description": "URL for main image to show in item",
+            "type": "string",
+            "format": "uri"
+          },
+          "published": {
+            "description": "Is the item published or not",
+            "type": "boolean"
+          },
+          "authorID": {
+            "description": "User ID of the item author",
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": ["title", "allText", "authorID"],
+        "additionalProperties": false      
+      }
+    }
+  }
