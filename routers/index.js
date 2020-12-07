@@ -1,7 +1,11 @@
 const compose = require('koa-compose')
 const glob = require('glob')
 const path = require('path')
-
+/**
+* A module to autoloading routes for the current directory
+* @module routers/index
+* @author Han Wang
+*/
 const registerRouters = () => {
   let routers = []
   glob

@@ -1,4 +1,13 @@
 const Message = require('../models/message')
+
+/**
+* CRUD operation on message
+* @module service/item
+* @author Han Wang
+* @param int item id
+* @param  object data
+* @return Mogoose model
+*/
 module.exports = {
   findOne(_id) {
     return Message.findOne({ _id })

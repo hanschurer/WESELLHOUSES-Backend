@@ -1,13 +1,21 @@
 const mongoose = require('mongoose')
 
-// const types = [
-//   'Houses', //0
-//   'Apartment', //1
-//   'Flat', //2
-//   'Garden', //3
-//   'Swimming pool', //4
-//   'Garage' //5
-// ]
+
+
+
+/**
+* A item schema
+* @module models/item
+* @author Han Wang
+* @types {arry} = [
+*   'Houses', //0
+   'Apartment', //1
+  'Flat', //2
+  'Garden', //3
+  'Swimming pool', //4
+  'Garage' //5
+]
+*/
 
 const item = new mongoose.Schema(
   {

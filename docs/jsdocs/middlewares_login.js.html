@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: middlewares/login.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: middlewares/login.js</h1>
 
     
 
@@ -26,26 +26,30 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
-
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
-
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+            <pre class="prettyprint source linenums"><code>const Jwt = require('jsonwebtoken')
+ /**
+     * to handle error
+     * @param {ctx} ctx The Koa request/response context object
+     * @param {next} next The Koa next callback
+     * @throws 401 user have not log in
+     * @throws 400 incorrent username and password
+     */
+module.exports = async (ctx, next) => {
+  const token = ctx.get('authorization')
+  if (!ctx.session.token) {
+    ctx.throw(401, 'Please log in')
+  }
+  if (ctx.session.token !== token) {
+    ctx.throw(401, 'Please log in')
+  }
+  try {
+    Jwt.verify(token, 'token')
+  } catch (error) {
+    ctx.throw(400, 'Incorrect account and password')
+  }
+  await next()
+}
+</code></pre>
         </article>
     </section>
 

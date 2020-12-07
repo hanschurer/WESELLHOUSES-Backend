@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
-
+/**
+* A user schema
+* @module models/user
+* @author Han Wang
+*/
 const user = new mongoose.Schema(
   {
     email: {

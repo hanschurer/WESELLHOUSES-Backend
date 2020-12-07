@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: service/user.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: service/user.js</h1>
 
     
 
@@ -26,26 +26,35 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const User = require('../models/user')
+const bcrypt = require('bcrypt')
+/**
+* CRUD operation on message
+* @module service/item
+* @author Han Wang
+* @param {object} user user
+* @return Mogoose model
+*/
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
-
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+module.exports = {
+  find(key, value) {
+    return User.findOne({
+      [key]: value
+    })
+  },
+  add(user) {
+    const password = user.password
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(password, salt)
+    user.password = hash
+    user.passwordSalt = salt
+    return User.create(user)
+  },
+  update(_id, user) {
+    return User.findByIdAndUpdate(_id, user)
+  }
+}
+</code></pre>
         </article>
     </section>
 

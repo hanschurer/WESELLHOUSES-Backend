@@ -1,5 +1,13 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+/**
+* CRUD operation on message
+* @module service/item
+* @author Han Wang
+* @param {object} user user
+* @return Mogoose model
+*/
+
 module.exports = {
   find(key, value) {
     return User.findOne({

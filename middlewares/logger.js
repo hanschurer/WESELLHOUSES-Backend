@@ -1,4 +1,9 @@
 function logger() {
+   /**
+     * to handle logger
+     * @param {ctx} ctx The Koa request/response context object
+     * @param {next} next The Koa next callback
+     */
   return async (ctx, next) => {
     if (process.env.NODE_ENV === 'test') {
       await next()

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: service/message.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: service/message.js</h1>
 
     
 
@@ -26,26 +26,58 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const Message = require('../models/message')
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
-
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+/**
+* CRUD operation on message
+* @module service/item
+* @author Han Wang
+* @param int item id
+* @param  object data
+* @return Mogoose model
+*/
+module.exports = {
+  findOne(_id) {
+    return Message.findOne({ _id })
+  },
+  add(data) {
+    return Message.create(data)
+  },
+  remove(_id) {
+    return Message.remove({ _id })
+  },
+  update(_id, data) {
+    return Message.findByIdAndUpdate(_id, data)
+  },
+  findAll(query = {}) {
+    const params = { status: 0 }
+    if (query.item) {
+      params.item = query.item
+    }
+    if (query.status === 'all') {
+      delete params.status
+    }
+    return Message.find(params)
+      .populate('createUser')
+      .sort({ createdAt: -1 })
+  },
+  findByUser(query = {}) {
+    const params = { status: 0, createUser: query.userId }
+    if (query.item) {
+      params.item = query.item
+    }
+    if (query.itemIds) {
+      params.item = { $in: query.itemIds }
+    }
+    if (query.status === 'all') {
+      delete params.status
+    }
+    return Message.find(params)
+      .populate('createUser')
+      .sort({ createdAt: -1 })
+  }
+}
+</code></pre>
         </article>
     </section>
 

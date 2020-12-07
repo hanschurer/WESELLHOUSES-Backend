@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: models/message.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: models/message.js</h1>
 
     
 
@@ -26,26 +26,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose')
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
+/**
+* A message schema
+* @module models/message
+* @author Han Wang
+*/
+const message = new mongoose.Schema(
+  {
+    content: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: Number,
+      default: 0 //0 display  1 hide
+    },
+    item: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'item'
+    }
+  },
+  {
+    versionKey: false,
+    timestamps: true
+  }
+)
 
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+module.exports = mongoose.model('message', message)
+</code></pre>
         </article>
     </section>
 

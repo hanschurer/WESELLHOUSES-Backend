@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: service/item.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: service/item.js</h1>
 
     
 
@@ -26,26 +26,52 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const Item = require('../models/item')
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
-
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+/**
+* CRUD operation on items
+* @module service/item
+* @author Han Wang
+* @param int item id
+* @param  object data
+* @return Mogoose model
+*/
+module.exports = {
+  findOne(_id) {
+    return Item.findOne({ _id }).populate('createUser')
+  },
+  add(data) {
+    return Item.create(data)
+  },
+  update(_id, data) {
+    return Item.findByIdAndUpdate(_id, data)
+  },
+  remove(_id) {
+    return Item.remove({ _id })
+  },
+  findAll(query = {}) {
+    const params = { status: 0 }
+    if (query.type &amp;&amp; query.type.length > 0) {
+      params.type = { $in: query.type }
+    }
+    if (query.tags &amp;&amp; query.tags.length > 0) {
+      params.tags = { $in: query.tags }
+    }
+    if (query.name) {
+      params.name = new RegExp(query.name)
+    }
+    if (query.createUser) {
+      params.createUser = query.createUser
+    }
+    if (query.status === 'all') {
+      delete params.status
+    }
+    return Item.find(params)
+      .populate('createUser')
+      .sort({ createdAt: -1 })
+  }
+}
+</code></pre>
         </article>
     </section>
 

@@ -1,5 +1,10 @@
 const mongoose = require('mongoose')
 
+/**
+* A message schema
+* @module models/message
+* @author Han Wang
+*/
 const message = new mongoose.Schema(
   {
     content: {

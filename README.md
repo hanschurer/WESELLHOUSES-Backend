@@ -43,11 +43,14 @@ Technology Stacks Used on the Back End: `Node、koa-router、role-acl、koa、JW
 <br/>
 
 ## Project Deployment
-npm install 
+First `npm install` 
 
-Use nodemon index.js to start the app
+Use `nodemon index.js` to start the app
 
-Use nodemon docs.js to start the open api. To see where the api document is, go to http://localhost:3333/openapi
+Use `nodemon docs.js` to start the open api. To see where the api document is, go to http://localhost:3333/openapi
 
 ## Test
 ![test](/static/Screen%20Shot%202020-12-07%20at%2009.36.01.png) 
+
+## Docs
+Docs are in the docs forder or visit http://localhost:3333

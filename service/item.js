@@ -1,4 +1,13 @@
 const Item = require('../models/item')
+
+/**
+* CRUD operation on items
+* @module service/item
+* @author Han Wang
+* @param int item id
+* @param  object data
+* @return Mogoose model
+*/
 module.exports = {
   findOne(_id) {
     return Item.findOne({ _id }).populate('createUser')

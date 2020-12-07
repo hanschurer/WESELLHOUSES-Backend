@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: routers/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: routers/index.js</h1>
 
     
 
@@ -26,26 +26,29 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const compose = require('koa-compose')
+const glob = require('glob')
+const path = require('path')
+/**
+* A module to autoloading routes for the current directory
+* @module routers/index
+* @author Han Wang
+*/
+const registerRouters = () => {
+  let routers = []
+  glob
+    .sync(path.resolve(__dirname, './*.js'))
+    .filter(filename => filename.indexOf('index.js') === -1)
+    .map(router => {
+      routers.push(require(router).routes())
+      routers.push(require(router).allowedMethods())
+    })
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
+  return compose(routers)
+}
 
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
-
-let port = process.env.PORT || 3333;
-
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+module.exports = registerRouters
+</code></pre>
         </article>
     </section>
 

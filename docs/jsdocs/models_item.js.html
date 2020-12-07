@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: docs.js</title>
+    <title>JSDoc: Source: models/item.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: docs.js</h1>
+    <h1 class="page-title">Source: models/item.js</h1>
 
     
 
@@ -26,26 +26,63 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file WeSellHouses OpenAPI Docs Server
- * @author Han Wang
- * @version v1
- * @description This file initialises the docs server and mounts its static paths.
- */
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose')
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const app = new Koa();
 
-app.use(mount('/', serve('./docs/jsdocs')))  // serve JSDocs
-app.use(mount('/openapi', serve('./docs/openapi')))  // serve OpenAPI
-app.use(mount('/schemas', serve('./schemas')))  // serve schemas
 
-let port = process.env.PORT || 3333;
 
-app.listen(port);
-console.log(`OpenAPI server running on port ${port}`)</code></pre>
+/**
+* A item schema
+* @module models/item
+* @author Han Wang
+* @types {arry} = [
+*   'Houses', //0
+   'Apartment', //1
+  'Flat', //2
+  'Garden', //3
+  'Swimming pool', //4
+  'Garage' //5
+]
+*/
+
+const item = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    type: [Number],
+    desc: {
+      type: String,
+      default: ''
+    },
+    tags: [String],
+    price: {
+      type: Number
+    },
+    position: {
+      type: String,
+      default: ''
+    },
+    imgUrl: [String],
+    videoUrl: String,
+    status: {
+      type: Number,
+      default: 0 //0 display  1 hide
+    },
+    createUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  },
+  {
+    versionKey: false,
+    timestamps: true
+  }
+)
+
+module.exports = mongoose.model('item', item)
+</code></pre>
         </article>
     </section>
 
