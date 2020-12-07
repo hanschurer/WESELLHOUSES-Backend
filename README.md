@@ -32,14 +32,14 @@ This one sells house site spa made for WeSellHouses IT team.
 - [x] Modify property information, upload video and other functions
 - [x] Message sending and archiving functions
 - [x] Search and filter properties by type and tags
+- [x] regular commits over an extended period of time. Effective use of branching and merging.
+- [x] including implementation of HATEOAS principles
+- [x] The API provides feedback for invalid requests through appropriate response codes and messages
+- [x] a flexible roles and permissions structure that allows an admin to manage permissions without changing code.
 
 ## Tech
 Technology Stacks Used on the Back End: `Node、koa-router、role-acl、koa、JWT、eslint、joi、mongoose`
 
- ☑️ regular commits over an extended period of time. Effective use of branching and merging.
- ☑️ including implementation of HATEOAS principles
- ☑️ The API provides feedback for invalid requests through appropriate response codes and messages
- ☑️ a flexible roles and permissions structure that allows an admin to manage permissions without changing code.
 <br/>
 
 ## Project Deployment
