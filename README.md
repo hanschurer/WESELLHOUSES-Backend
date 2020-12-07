@@ -35,6 +35,11 @@ This one sells house site spa made for WeSellHouses IT team.
 
 ## Tech
 Technology Stacks Used on the Back End: `Node、koa-router、role-acl、koa、JWT、eslint、joi、mongoose`
+
+ ☑️ regular commits over an extended period of time. Effective use of branching and merging.
+ ☑️ including implementation of HATEOAS principles
+ ☑️ The API provides feedback for invalid requests through appropriate response codes and messages
+ ☑️ a flexible roles and permissions structure that allows an admin to manage permissions without changing code.
 <br/>
 
 ## Project Deployment
@@ -44,3 +49,5 @@ Use nodemon index.js to start the app
 
 Use nodemon docs.js to start the open api. To see where the api document is, go to http://localhost:3333/openapi
 
+## Test
+![test](/static/Screen%20Shot%202020-12-07%20at%2009.36.01.png) 
