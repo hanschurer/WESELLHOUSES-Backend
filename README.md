@@ -2,7 +2,6 @@
 
 #### Current Status
 
-The repository is currently complete up to the end of the Week 11 worksheet tasks (tag:week11.2). Check out other git tags for known states (see section below).
 
 | API Layer                                | In Active Development? |
 |------------------------------------------|------------------------|
